@@ -14,8 +14,9 @@
         <maven.compiler.source>21</maven.compiler.source>
         <maven.compiler.target>21</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <azure.functions.maven.plugin.version>1.18.0</azure.functions.maven.plugin.version>
-        <azure.functions.java.library.version>3.0.0</azure.functions.java.library.version>
+        
+        <azure.functions.maven.plugin.version>1.36.0</azure.functions.maven.plugin.version>
+        <azure.functions.java.library.version>3.3.0</azure.functions.java.library.version>
         <functionAppName>tmdb-app</functionAppName>
     </properties>
 
@@ -37,7 +38,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.11.0</version>
+                <version>3.16.0</version>
             </plugin>
             <plugin>
                 <groupId>com.microsoft.azure</groupId>
