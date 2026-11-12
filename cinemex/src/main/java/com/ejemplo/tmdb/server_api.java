@@ -26,7 +26,7 @@ public class server_api {
 
     @FunctionName("CinemexApi")
     public HttpResponseMessage run(
-            @HttpTrigger(name = "req", methods = {HttpMethod.GET}, authLevel = AuthorizationLevel.ANONYMOUS, route = "{*route}")
+            @HttpTrigger(name = "req", methods = {HttpMethod.GET}, authLevel = AuthorizationLevel.ANONYMOUS, route = "peliculas/{*route}")
             HttpRequestMessage<Optional<String>> request,
             final ExecutionContext context) {
 
@@ -38,25 +38,8 @@ public class server_api {
                 return sendError(request, HttpStatus.METHOD_NOT_ALLOWED, "Metodo no permitido");
             }
 
-            if (path.equals("/") || path.equals("/health")) {
-                Map<String, Object> body = new LinkedHashMap<>();
-                body.put("servicio", "Cinemex API");
-                body.put("status", "ok");
-                body.put("endpoints", List.of(
-                        "/peliculas",
-                        "/peliculas/populares",
-                        "/peliculas/cartelera",
-                        "/peliculas/proximos-estrenos",
-                        "/peliculas/{id}",
-                        "/peliculas/{id}/reparto"));
-                return sendJson(request, HttpStatus.OK, body);
-            }
-
-            if (!path.startsWith("/peliculas")) {
-                return sendError(request, HttpStatus.NOT_FOUND, "Ruta no encontrada");
-            }
-
-            String resto = path.substring("/peliculas".length());
+            // Extraemos la ruta después de /api/peliculas
+            String resto = path.replace("/api/peliculas", "");
             if (resto.startsWith("/")) resto = resto.substring(1);
             if (resto.endsWith("/")) resto = resto.substring(0, resto.length() - 1);
 
@@ -85,7 +68,7 @@ public class server_api {
                         return sendJson(request, HttpStatus.OK, tmdb.reparto(id));
                     }
 
-                    return sendError(request, HttpStatus.NOT_FOUND, "Ruta no encontrada");
+                    return sendError(request, HttpStatus.NOT_FOUND, "Ruta no encontrada en la API");
             }
 
         } catch (NumberFormatException e) {
