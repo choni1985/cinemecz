@@ -38,7 +38,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.16.0</version>
+                <version>3.13.0</version>
             </plugin>
             <plugin>
                 <groupId>com.microsoft.azure</groupId>
@@ -49,7 +49,11 @@
                     <resourceGroup>java-functions-group</resourceGroup>
                     <appServicePlanName>java-functions-app-service-plan</appServicePlanName>
                     <region>westus</region>
+                    
+                    <!-- Forzamos el uso de tus archivos locales -->
                     <hostJson>${project.basedir}/host.json</hostJson>
+                    <localSettingsJson>${project.basedir}/local.settings.json</localSettingsJson>
+                    
                     <runtime>
                         <os>windows</os>
                         <javaVersion>21</javaVersion>
