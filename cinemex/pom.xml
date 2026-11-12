@@ -48,6 +48,7 @@
                     <resourceGroup>java-functions-group</resourceGroup>
                     <appServicePlanName>java-functions-app-service-plan</appServicePlanName>
                     <region>westus</region>
+                    <hostJson>${project.basedir}/host.json</hostJson>
                     <runtime>
                         <os>windows</os>
                         <javaVersion>21</javaVersion>
