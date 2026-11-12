@@ -1,8 +1,14 @@
 package com.ejemplo.tmdb;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.microsoft.azure.functions.*;
-import com.microsoft.azure.functions.annotation.*;
+import com.microsoft.azure.functions.ExecutionContext;
+import com.microsoft.azure.functions.HttpMethod;
+import com.microsoft.azure.functions.HttpRequestMessage;
+import com.microsoft.azure.functions.HttpResponseMessage;
+import com.microsoft.azure.functions.HttpStatus;
+import com.microsoft.azure.functions.annotation.AuthorizationLevel;
+import com.microsoft.azure.functions.annotation.FunctionName;
+import com.microsoft.azure.functions.annotation.HttpTrigger;
 
 import java.util.LinkedHashMap;
 import java.util.List;
