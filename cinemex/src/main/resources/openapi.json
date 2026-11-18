@@ -1,0 +1,112 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Cinemex API",
+    "version": "1.0.0",
+    "description": "API intermedia para consultar películas de TMDB. Documentación generada para el proyecto Cinemex."
+  },
+  "servers": [
+    {
+      "url": "https://cinemex-api-bye8gdg4chbsa7e3.northcentralus-01.azurewebsites.net/api/peliculas"
+    }
+  ],
+  "paths": {
+    "": {
+      "get": {
+        "summary": "Health Check",
+        "description": "Verifica que la API esté en línea y muestra las rutas disponibles.",
+        "responses": {
+          "200": { "description": "API funcionando correctamente" }
+        }
+      }
+    },
+    "/populares": {
+      "get": {
+        "summary": "Películas populares",
+        "description": "Obtiene una lista de las películas más populares del momento.",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "integer", "default": 1 }
+          }
+        ],
+        "responses": {
+          "200": { "description": "Lista de películas populares" }
+        }
+      }
+    },
+    "/cartelera": {
+      "get": {
+        "summary": "Películas en cartelera",
+        "description": "Obtiene las películas que están actualmente en cines.",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "integer", "default": 1 }
+          }
+        ],
+        "responses": {
+          "200": { "description": "Lista de películas en cartelera" }
+        }
+      }
+    },
+    "/proximos-estrenos": {
+      "get": {
+        "summary": "Próximos estrenos",
+        "description": "Obtiene las películas que se estrenarán próximamente.",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "integer", "default": 1 }
+          }
+        ],
+        "responses": {
+          "200": { "description": "Lista de próximos estrenos" }
+        }
+      }
+    },
+    "/{id}": {
+      "get": {
+        "summary": "Detalle de película",
+        "description": "Obtiene los detalles completos de una película por su ID de TMDB, incluyendo su clasificación.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID de la película en TMDB",
+            "schema": { "type": "integer" }
+          }
+        ],
+        "responses": {
+          "200": { "description": "Detalle de la película" },
+          "404": { "description": "Película no encontrada en TMDB" }
+        }
+      }
+    },
+    "/{id}/reparto": {
+      "get": {
+        "summary": "Reparto de película",
+        "description": "Obtiene la lista de actores principales de una película.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID de la película en TMDB",
+            "schema": { "type": "integer" }
+          }
+        ],
+        "responses": {
+          "200": { "description": "Lista de actores" }
+        }
+      }
+    }
+  }
+}
