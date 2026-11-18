@@ -10,6 +10,8 @@ import com.microsoft.azure.functions.annotation.AuthorizationLevel;
 import com.microsoft.azure.functions.annotation.FunctionName;
 import com.microsoft.azure.functions.annotation.HttpTrigger;
 
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,12 +19,7 @@ import java.util.Optional;
 
 public class server_api {
 
-    private final conexion_tmdb tmdb;
     private final ObjectMapper mapper = new ObjectMapper();
-
-    public server_api() {
-        this.tmdb = new conexion_tmdb();
-    }
 
     @FunctionName("CinemexApi")
     public HttpResponseMessage run(
@@ -30,22 +27,27 @@ public class server_api {
             HttpRequestMessage<Optional<String>> request,
             final ExecutionContext context) {
 
-        String path = request.getUri().getPath();
-        String method = request.getHttpMethod().name();
-
         try {
+            conexion_tmdb tmdb = new conexion_tmdb();
+            
+            String path = request.getUri().getPath();
+            String method = request.getHttpMethod().name();
+
             if (!"GET".equalsIgnoreCase(method)) {
                 return sendError(request, HttpStatus.METHOD_NOT_ALLOWED, "Metodo no permitido");
             }
 
-            // Extraemos la ruta después de /api/peliculas
-            String resto = path.replace("/api/peliculas", "");
+            String resto = path.replace("/api/peliculas", "").replace("/peliculas", "");
             if (resto.startsWith("/")) resto = resto.substring(1);
             if (resto.endsWith("/")) resto = resto.substring(0, resto.length() - 1);
 
             int page = extraerPage(request);
 
             switch (resto) {
+                case "swagger":
+                    return sendSwaggerUI(request);
+                case "openapi.json":
+                    return sendOpenApiSpec(request);
                 case "":
                 case "populares":
                     return enviarLista(request, tmdb.populares(page));
@@ -71,6 +73,8 @@ public class server_api {
                     return sendError(request, HttpStatus.NOT_FOUND, "Ruta no encontrada en la API");
             }
 
+        } catch (IllegalStateException e) {
+            return sendError(request, HttpStatus.INTERNAL_SERVER_ERROR, "Configuracion faltante: " + e.getMessage());
         } catch (NumberFormatException e) {
             return sendError(request, HttpStatus.BAD_REQUEST, "ID de pelicula invalido");
         } catch (tmdb_status e) {
@@ -79,6 +83,50 @@ public class server_api {
             e.printStackTrace();
             return sendError(request, HttpStatus.INTERNAL_SERVER_ERROR, "Error interno: " + e.getMessage());
         }
+    }
+
+    private HttpResponseMessage sendOpenApiSpec(HttpRequestMessage<Optional<String>> request) {
+        try (InputStream is = getClass().getClassLoader().getResourceAsStream("openapi.json")) {
+            if (is != null) {
+                String spec = new String(is.readAllBytes(), StandardCharsets.UTF_8);
+                return request.createResponseBuilder(HttpStatus.OK)
+                        .header("Content-Type", "application/json")
+                        .header("Access-Control-Allow-Origin", "*")
+                        .body(spec)
+                        .build();
+            } else {
+                return sendError(request, HttpStatus.NOT_FOUND, "Archivo openapi.json no encontrado en resources");
+            }
+        } catch (Exception e) {
+            return sendError(request, HttpStatus.INTERNAL_SERVER_ERROR, "Error leyendo OpenAPI: " + e.getMessage());
+        }
+    }
+
+    private HttpResponseMessage sendSwaggerUI(HttpRequestMessage<Optional<String>> request) {
+        String html = "<!DOCTYPE html>\n" +
+                "<html>\n" +
+                "<head>\n" +
+                "  <title>Cinemex API - Swagger</title>\n" +
+                "  <link rel=\"stylesheet\" type=\"text/css\" href=\"https://unpkg.com/swagger-ui-dist@5/swagger-ui.css\" />\n" +
+                "</head>\n" +
+                "<body>\n" +
+                "<div id=\"swagger-ui\"></div>\n" +
+                "<script src=\"https://unpkg.com/swagger-ui-dist@5/swagger-ui-bundle.js\"></script>\n" +
+                "<script>\n" +
+                "  window.onload = function() {\n" +
+                "    SwaggerUIBundle({\n" +
+                "      url: '/api/peliculas/openapi.json',\n" +
+                "      dom_id: '#swagger-ui',\n" +
+                "      deepLinking: true\n" +
+                "    });\n" +
+                "  };\n" +
+                "</script>\n" +
+                "</body>\n" +
+                "</html>";
+        return request.createResponseBuilder(HttpStatus.OK)
+                .header("Content-Type", "text/html; charset=utf-8")
+                .body(html)
+                .build();
     }
 
     private int parseId(String s) {
@@ -128,7 +176,7 @@ public class server_api {
                     .build();
         } catch (Exception e) {
             return request.createResponseBuilder(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Error serializando respuesta: " + e.getMessage())
+                    .body("{\"error\": \"Error serializando respuesta: " + e.getMessage() + "\"}")
                     .build();
         }
     }
