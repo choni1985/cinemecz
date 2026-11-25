@@ -41,7 +41,6 @@ public class server_api {
 
             int page = extraerPage(request);
 
-            // Rutas que NO dependen de TMDB ni de credenciales
             switch (resto) {
                 case "swagger":
                     return sendSwaggerUI(request);
@@ -56,7 +55,6 @@ public class server_api {
                     break;
             }
 
-            // A partir de aquí sí se necesita TMDB
             conexion_tmdb tmdb = new conexion_tmdb();
 
             switch (resto) {
@@ -137,7 +135,7 @@ public class server_api {
             if (is != null) {
                 String spec = new String(is.readAllBytes(), StandardCharsets.UTF_8);
                 return request.createResponseBuilder(HttpStatus.OK)
-                        .header("Content-Type", "application/json")
+                        .header("Content-Type", "application/json; charset=utf-8")
                         .header("Access-Control-Allow-Origin", "*")
                         .body(spec)
                         .build();
@@ -164,7 +162,8 @@ public class server_api {
                 "    SwaggerUIBundle({\n" +
                 "      url: '/api/peliculas/openapi.json',\n" +
                 "      dom_id: '#swagger-ui',\n" +
-                "      deepLinking: true\n" +
+                "      deepLinking: true,\n" +
+                "      presets: [SwaggerUIBundle.presets.apis]\n" +
                 "    });\n" +
                 "  };\n" +
                 "</script>\n" +
@@ -172,6 +171,7 @@ public class server_api {
                 "</html>";
         return request.createResponseBuilder(HttpStatus.OK)
                 .header("Content-Type", "text/html; charset=utf-8")
+                .header("Access-Control-Allow-Origin", "*")
                 .body(html)
                 .build();
     }
