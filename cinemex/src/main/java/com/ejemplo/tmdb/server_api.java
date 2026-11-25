@@ -41,6 +41,7 @@ public class server_api {
 
             int page = extraerPage(request);
 
+            // Rutas que no dependen de TMDB
             switch (resto) {
                 case "swagger":
                     return sendSwaggerUI(request);
@@ -55,6 +56,7 @@ public class server_api {
                     break;
             }
 
+            // Rutas que sí dependen de TMDB
             conexion_tmdb tmdb = new conexion_tmdb();
 
             switch (resto) {
