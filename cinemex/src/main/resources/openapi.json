@@ -20,17 +20,7 @@
             "description": "API funcionando correctamente",
             "content": {
               "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "servicio": { "type": "string" },
-                    "status": { "type": "string" },
-                    "endpoints": {
-                      "type": "array",
-                      "items": { "type": "string" }
-                    }
-                  }
-                }
+                "schema": { "$ref": "#/components/schemas/Health" }
               }
             }
           }
@@ -46,17 +36,7 @@
             "description": "API funcionando correctamente",
             "content": {
               "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "servicio": { "type": "string" },
-                    "status": { "type": "string" },
-                    "endpoints": {
-                      "type": "array",
-                      "items": { "type": "string" }
-                    }
-                  }
-                }
+                "schema": { "$ref": "#/components/schemas/Health" }
               }
             }
           }
@@ -193,6 +173,33 @@
           "400": { "$ref": "#/components/responses/Error" }
         }
       }
+    },
+    "/docs": {
+      "get": {
+        "summary": "Documentación HTML",
+        "description": "Devuelve la documentación en HTML.",
+        "responses": {
+          "200": { "description": "Documentación en HTML" }
+        }
+      }
+    },
+    "/openapi.json": {
+      "get": {
+        "summary": "Especificación OpenAPI",
+        "description": "Devuelve el contrato OpenAPI en JSON.",
+        "responses": {
+          "200": { "description": "Especificación OpenAPI" }
+        }
+      }
+    },
+    "/swagger": {
+      "get": {
+        "summary": "Swagger UI",
+        "description": "Interfaz interactiva de Swagger.",
+        "responses": {
+          "200": { "description": "Página HTML de Swagger UI" }
+        }
+      }
     }
   },
   "components": {
@@ -207,6 +214,14 @@
       }
     },
     "schemas": {
+      "Health": {
+        "type": "object",
+        "properties": {
+          "servicio": { "type": "string" },
+          "status": { "type": "string" },
+          "endpoints": { "type": "array", "items": { "type": "string" } }
+        }
+      },
       "PaginaPeliculas": {
         "type": "object",
         "properties": {
@@ -227,10 +242,7 @@
           "sinopsis": { "type": "string" },
           "fechaEstreno": { "type": "string", "nullable": true },
           "duracion": { "type": "integer" },
-          "generos": {
-            "type": "array",
-            "items": { "type": "string" }
-          },
+          "generos": { "type": "array", "items": { "type": "string" } },
           "clasificacion": { "type": "string" },
           "cartel": { "type": "string", "nullable": true },
           "calificacion": { "type": "number", "format": "double" },
