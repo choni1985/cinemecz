@@ -14,7 +14,6 @@
         <maven.compiler.source>21</maven.compiler.source>
         <maven.compiler.target>21</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-
         <azure.functions.maven.plugin.version>1.36.0</azure.functions.maven.plugin.version>
         <azure.functions.java.library.version>3.3.0</azure.functions.java.library.version>
         <functionAppName>tmdb-app</functionAppName>
@@ -41,7 +40,6 @@
                 <version>3.13.0</version>
             </plugin>
 
-            <!-- Asegura que los recursos se empaqueten en el JAR -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-resources-plugin</artifactId>
@@ -59,10 +57,8 @@
                     <appName>${functionAppName}</appName>
                     <resourceGroup>java-functions-group</resourceGroup>
                     <appServicePlanName>java-functions-app-service-plan</appServicePlanName>
-
                     <hostJson>${project.basedir}/host.json</hostJson>
                     <localSettingsJson>${project.basedir}/local.settings.json</localSettingsJson>
-
                     <runtime>
                         <javaVersion>21</javaVersion>
                     </runtime>
