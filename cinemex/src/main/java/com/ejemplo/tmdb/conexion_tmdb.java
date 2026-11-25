@@ -7,6 +7,7 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,7 +20,10 @@ public class conexion_tmdb {
     private static final String API_KEY      = System.getenv("TMDB_API_KEY");
     private static final String BEARER_TOKEN = System.getenv("TMDB_BEARER_TOKEN");
 
-    private final HttpClient httpClient = HttpClient.newHttpClient();
+    private final HttpClient httpClient = HttpClient.newBuilder()
+            .connectTimeout(Duration.ofSeconds(10))
+            .build();
+
     private final ObjectMapper mapper = new ObjectMapper();
 
     public conexion_tmdb() {
@@ -120,6 +124,7 @@ public class conexion_tmdb {
 
         HttpRequest.Builder b = HttpRequest.newBuilder()
                 .uri(URI.create(url.toString()))
+                .timeout(Duration.ofSeconds(15))
                 .header("Accept", "application/json")
                 .header("User-Agent", "CinemexAPI/1.0")
                 .GET();
