@@ -29,7 +29,7 @@ public class server_api {
 
         try {
             conexion_tmdb tmdb = new conexion_tmdb();
-            
+
             String path = request.getUri().getPath();
             String method = request.getHttpMethod().name();
 
@@ -48,6 +48,8 @@ public class server_api {
                     return sendSwaggerUI(request);
                 case "openapi.json":
                     return sendOpenApiSpec(request);
+                case "docs":
+                    return sendIndexHtml(request);
                 case "":
                 case "populares":
                     return enviarLista(request, tmdb.populares(page));
@@ -82,6 +84,23 @@ public class server_api {
         } catch (Exception e) {
             e.printStackTrace();
             return sendError(request, HttpStatus.INTERNAL_SERVER_ERROR, "Error interno: " + e.getMessage());
+        }
+    }
+
+    private HttpResponseMessage sendIndexHtml(HttpRequestMessage<Optional<String>> request) {
+        try (InputStream is = getClass().getClassLoader().getResourceAsStream("index.html")) {
+            if (is != null) {
+                String html = new String(is.readAllBytes(), StandardCharsets.UTF_8);
+                return request.createResponseBuilder(HttpStatus.OK)
+                        .header("Content-Type", "text/html; charset=utf-8")
+                        .header("Access-Control-Allow-Origin", "*")
+                        .body(html)
+                        .build();
+            } else {
+                return sendError(request, HttpStatus.NOT_FOUND, "Archivo index.html no encontrado en resources");
+            }
+        } catch (Exception e) {
+            return sendError(request, HttpStatus.INTERNAL_SERVER_ERROR, "Error leyendo index.html: " + e.getMessage());
         }
     }
 
