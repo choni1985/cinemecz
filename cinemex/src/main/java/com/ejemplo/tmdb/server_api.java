@@ -28,8 +28,6 @@ public class server_api {
             final ExecutionContext context) {
 
         try {
-            conexion_tmdb tmdb = new conexion_tmdb();
-
             String path = request.getUri().getPath();
             String method = request.getHttpMethod().name();
 
@@ -43,6 +41,7 @@ public class server_api {
 
             int page = extraerPage(request);
 
+            // Rutas que NO dependen de TMDB ni de credenciales
             switch (resto) {
                 case "swagger":
                     return sendSwaggerUI(request);
@@ -51,6 +50,16 @@ public class server_api {
                 case "docs":
                     return sendIndexHtml(request);
                 case "":
+                case "health":
+                    return sendHealth(request);
+                default:
+                    break;
+            }
+
+            // A partir de aquí sí se necesita TMDB
+            conexion_tmdb tmdb = new conexion_tmdb();
+
+            switch (resto) {
                 case "populares":
                     return enviarLista(request, tmdb.populares(page));
                 case "cartelera":
@@ -85,6 +94,25 @@ public class server_api {
             e.printStackTrace();
             return sendError(request, HttpStatus.INTERNAL_SERVER_ERROR, "Error interno: " + e.getMessage());
         }
+    }
+
+    private HttpResponseMessage sendHealth(HttpRequestMessage<Optional<String>> request) {
+        Map<String, Object> body = new LinkedHashMap<>();
+        body.put("servicio", "Cinemex API");
+        body.put("status", "ok");
+        body.put("endpoints", List.of(
+                "/api/peliculas",
+                "/api/peliculas/health",
+                "/api/peliculas/populares",
+                "/api/peliculas/cartelera",
+                "/api/peliculas/proximos-estrenos",
+                "/api/peliculas/{id}",
+                "/api/peliculas/{id}/reparto",
+                "/api/peliculas/docs",
+                "/api/peliculas/openapi.json",
+                "/api/peliculas/swagger"
+        ));
+        return sendJson(request, HttpStatus.OK, body);
     }
 
     private HttpResponseMessage sendIndexHtml(HttpRequestMessage<Optional<String>> request) {
