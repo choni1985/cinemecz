@@ -2,170 +2,108 @@
 <html>
   <head>
     <title>Cinemex API</title>
+    <meta charset="utf-8" />
     <style type="text/css">
       body {
-      	font-family: Trebuchet MS, sans-serif;
-      	font-size: 15px;
-      	color: #444;
-      	margin-right: 24px;
+        font-family: Trebuchet MS, sans-serif;
+        font-size: 15px;
+        color: #444;
+        margin-right: 24px;
       }
-      
-      h1	{
-      	font-size: 25px;
+
+      h1 { font-size: 25px; }
+      h2 { font-size: 20px; }
+      h3 { font-size: 16px; font-weight: bold; }
+      hr {
+        height: 1px;
+        border: 0;
+        color: #ddd;
+        background-color: #ddd;
       }
-      h2	{
-      	font-size: 20px;
-      }
-      h3	{
-      	font-size: 16px;
-      	font-weight: bold;
-      }
-      hr	{
-      	height: 1px;
-      	border: 0;
-      	color: #ddd;
-      	background-color: #ddd;
-      }
-      
+
       .app-desc {
         clear: both;
         margin-left: 20px;
       }
-      .param-name {
-        width: 100%;
+      .param-name { width: 100%; }
+      .license-info { margin-left: 20px; }
+      .license-url { margin-left: 20px; }
+      .model { margin: 0 0 0px 20px; }
+      .method { margin-left: 20px; }
+      .method-notes {
+        margin: 10px 0 20px 0;
+        font-size: 90%;
+        color: #555;
       }
-      .license-info {
-        margin-left: 20px;
-      }
-      
-      .license-url {
-        margin-left: 20px;
-      }
-      
-      .model {
-        margin: 0 0 0px 20px;
-      }
-      
-      .method {
-        margin-left: 20px;
-      }
-      
-      .method-notes	{
-      	margin: 10px 0 20px 0;
-      	font-size: 90%;
-      	color: #555;
-      }
-      
+
       pre {
         padding: 10px;
         margin-bottom: 2px;
+        overflow-x: auto;
       }
-      
-      .http-method {
-       text-transform: uppercase;
-      }
-      
-      pre.get {
-        background-color: #0f6ab4;
-      }
-      
-      pre.post {
-        background-color: #10a54a;
-      }
-      
-      pre.put {
-        background-color: #c5862b;
-      }
-      
-      pre.delete {
-        background-color: #a41e22;
-      }
-      
-      .huge	{
-      	color: #fff;
-      }
-      
+
+      .http-method { text-transform: uppercase; }
+
+      pre.get { background-color: #0f6ab4; }
+      pre.post { background-color: #10a54a; }
+      pre.put { background-color: #c5862b; }
+      pre.delete { background-color: #a41e22; }
+
+      .huge { color: #fff; }
+
       pre.example {
         background-color: #f3f3f3;
         padding: 10px;
         border: 1px solid #ddd;
       }
-      
-      code {
-        white-space: pre;
-      }
-      
-      .nickname {
-        font-weight: bold;
-      }
-      
+
+      code { white-space: pre; }
+
+      .nickname { font-weight: bold; }
+
       .method-path {
         font-size: 1.5em;
         background-color: #0f6ab4;
       }
-      
-      .up {
-        float:right;
-      }
-      
-      .parameter {
-        width: 500px;
-      }
-      
+
+      .up { float: right; }
+
+      .parameter { width: 500px; }
+
       .param {
         width: 500px;
         padding: 10px 0 0 20px;
         font-weight: bold;
       }
-      
+
       .param-desc {
         width: 700px;
         padding: 0 0 0 20px;
         color: #777;
       }
-      
-      .param-type {
-        font-style: italic;
-      }
-      
-      .param-enum-header {
-      width: 700px;
-      padding: 0 0 0 60px;
-      color: #777;
-      font-weight: bold;
-      }
-      
-      .param-enum {
-      width: 700px;
-      padding: 0 0 0 80px;
-      color: #777;
-      font-style: italic;
-      }
-      
+
+      .param-type { font-style: italic; }
+
       .field-label {
         padding: 0;
         margin: 0;
         clear: both;
       }
-      
-      .field-items	{
-      	padding: 0 0 15px 0;
-      	margin-bottom: 15px;
+
+      .field-items {
+        padding: 0 0 15px 0;
+        margin-bottom: 15px;
       }
-      
+
       .return-type {
         clear: both;
         padding-bottom: 10px;
       }
-      
-      .param-header {
-        font-weight: bold;
-      }
-      
-      .method-tags {
-        text-align: right;
-      }
-      
+
+      .param-header { font-weight: bold; }
+
+      .method-tags { text-align: right; }
+
       .method-tag {
         background: none repeat scroll 0% 0% #24A600;
         border-radius: 3px;
@@ -175,214 +113,430 @@
         display: inline-block;
         text-decoration: none;
       }
+
+      table {
+        border-collapse: collapse;
+        margin-left: 20px;
+        margin-bottom: 20px;
+      }
+
+      table th, table td {
+        border: 1px solid #ddd;
+        padding: 6px 10px;
+        text-align: left;
+        vertical-align: top;
+      }
+
+      table th {
+        background-color: #f3f3f3;
+      }
+
+      .base-url {
+        background-color: #f3f3f3;
+        padding: 8px 12px;
+        border-left: 4px solid #0f6ab4;
+        margin-left: 20px;
+        font-family: monospace;
+        word-break: break-all;
+      }
+
+      .note {
+        background-color: #fff8e1;
+        border-left: 4px solid #c5862b;
+        padding: 8px 12px;
+        margin-left: 20px;
+        margin-bottom: 15px;
+      }
     </style>
   </head>
   <body>
-  <h1>Cinemex API</h1>
-    <div class="app-desc">API intermedia para consultar películas de TMDB. Documentación generada para el proyecto Cinemex.</div>
-    <div class="app-desc">More information: <a href="https://helloreverb.com">https://helloreverb.com</a></div>
-    <div class="app-desc">Contact Info: <a href="hello@helloreverb.com">hello@helloreverb.com</a></div>
-    <div class="app-desc">Version: 1.0.0</div>
-    <div class="app-desc">BasePath:/api/peliculas</div>
-    <div class="license-info">All rights reserved</div>
-    <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
-  <h2>Access</h2>
-
-  <h2><a name="__Methods">Methods</a></h2>
-  [ Jump to <a href="#__Models">Models</a> ]
-
-  <h3>Table of Contents </h3>
-  <div class="method-summary"></div>
-  <h4><a href="#Default">Default</a></h4>
-  <ul>
-  <li><a href="#carteleraGet"><code><span class="http-method">get</span> /cartelera</code></a></li>
-  <li><a href="#get"><code><span class="http-method">get</span> </code></a></li>
-  <li><a href="#idGet"><code><span class="http-method">get</span> /{id}</code></a></li>
-  <li><a href="#idRepartoGet"><code><span class="http-method">get</span> /{id}/reparto</code></a></li>
-  <li><a href="#popularesGet"><code><span class="http-method">get</span> /populares</code></a></li>
-  <li><a href="#proximosEstrenosGet"><code><span class="http-method">get</span> /proximos-estrenos</code></a></li>
-  </ul>
-
-  <h1><a name="Default">Default</a></h1>
-  <div class="method"><a name="carteleraGet"></a>
-    <div class="method-path">
-    <a class="up" href="#__Methods">Up</a>
-    <pre class="get"><code class="huge"><span class="http-method">get</span> /cartelera</code></pre></div>
-    <div class="method-summary">Películas en cartelera (<span class="nickname">carteleraGet</span>)</div>
-    <div class="method-notes">Obtiene las películas que están actualmente en cines.</div>
-
-
-
-
-
-    <h3 class="field-label">Query parameters</h3>
-    <div class="field-items">
-      <div class="param">page (optional)</div>
-      
-            <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash;  default: 1 </div>    </div>  <!-- field-items -->
-
-
-
-    <!--Todo: process Response Object and its headers, schema, examples -->
-
-
-
-    <h3 class="field-label">Responses</h3>
-    <h4 class="field-label">200</h4>
-    Lista de películas en cartelera
-        <a href="#"></a>
-  </div> <!-- method -->
-  <hr/>
-  <div class="method"><a name="get"></a>
-    <div class="method-path">
-    <a class="up" href="#__Methods">Up</a>
-    <pre class="get"><code class="huge"><span class="http-method">get</span> </code></pre></div>
-    <div class="method-summary">Health Check (<span class="nickname">get</span>)</div>
-    <div class="method-notes">Verifica que la API esté en línea y muestra las rutas disponibles.</div>
-
-
-
-
-
-
-
-
-    <!--Todo: process Response Object and its headers, schema, examples -->
-
-
-
-    <h3 class="field-label">Responses</h3>
-    <h4 class="field-label">200</h4>
-    API funcionando correctamente
-        <a href="#"></a>
-  </div> <!-- method -->
-  <hr/>
-  <div class="method"><a name="idGet"></a>
-    <div class="method-path">
-    <a class="up" href="#__Methods">Up</a>
-    <pre class="get"><code class="huge"><span class="http-method">get</span> /{id}</code></pre></div>
-    <div class="method-summary">Detalle de película (<span class="nickname">idGet</span>)</div>
-    <div class="method-notes">Obtiene los detalles completos de una película por su ID de TMDB, incluyendo su clasificación.</div>
-
-    <h3 class="field-label">Path parameters</h3>
-    <div class="field-items">
-      <div class="param">id (required)</div>
-      
-            <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; ID de la película en TMDB </div>    </div>  <!-- field-items -->
-
-
-
-
-
-
-
-    <!--Todo: process Response Object and its headers, schema, examples -->
-
-
-
-    <h3 class="field-label">Responses</h3>
-    <h4 class="field-label">200</h4>
-    Detalle de la película
-        <a href="#"></a>
-    <h4 class="field-label">404</h4>
-    Película no encontrada en TMDB
-        <a href="#"></a>
-  </div> <!-- method -->
-  <hr/>
-  <div class="method"><a name="idRepartoGet"></a>
-    <div class="method-path">
-    <a class="up" href="#__Methods">Up</a>
-    <pre class="get"><code class="huge"><span class="http-method">get</span> /{id}/reparto</code></pre></div>
-    <div class="method-summary">Reparto de película (<span class="nickname">idRepartoGet</span>)</div>
-    <div class="method-notes">Obtiene la lista de actores principales de una película.</div>
-
-    <h3 class="field-label">Path parameters</h3>
-    <div class="field-items">
-      <div class="param">id (required)</div>
-      
-            <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; ID de la película en TMDB </div>    </div>  <!-- field-items -->
-
-
-
-
-
-
-
-    <!--Todo: process Response Object and its headers, schema, examples -->
-
-
-
-    <h3 class="field-label">Responses</h3>
-    <h4 class="field-label">200</h4>
-    Lista de actores
-        <a href="#"></a>
-  </div> <!-- method -->
-  <hr/>
-  <div class="method"><a name="popularesGet"></a>
-    <div class="method-path">
-    <a class="up" href="#__Methods">Up</a>
-    <pre class="get"><code class="huge"><span class="http-method">get</span> /populares</code></pre></div>
-    <div class="method-summary">Películas populares (<span class="nickname">popularesGet</span>)</div>
-    <div class="method-notes">Obtiene una lista de las películas más populares del momento.</div>
-
-
-
-
-
-    <h3 class="field-label">Query parameters</h3>
-    <div class="field-items">
-      <div class="param">page (optional)</div>
-      
-            <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash;  default: 1 </div>    </div>  <!-- field-items -->
-
-
-
-    <!--Todo: process Response Object and its headers, schema, examples -->
-
-
-
-    <h3 class="field-label">Responses</h3>
-    <h4 class="field-label">200</h4>
-    Lista de películas populares
-        <a href="#"></a>
-  </div> <!-- method -->
-  <hr/>
-  <div class="method"><a name="proximosEstrenosGet"></a>
-    <div class="method-path">
-    <a class="up" href="#__Methods">Up</a>
-    <pre class="get"><code class="huge"><span class="http-method">get</span> /proximos-estrenos</code></pre></div>
-    <div class="method-summary">Próximos estrenos (<span class="nickname">proximosEstrenosGet</span>)</div>
-    <div class="method-notes">Obtiene las películas que se estrenarán próximamente.</div>
-
-
-
-
-
-    <h3 class="field-label">Query parameters</h3>
-    <div class="field-items">
-      <div class="param">page (optional)</div>
-      
-            <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash;  default: 1 </div>    </div>  <!-- field-items -->
-
-
-
-    <!--Todo: process Response Object and its headers, schema, examples -->
-
-
-
-    <h3 class="field-label">Responses</h3>
-    <h4 class="field-label">200</h4>
-    Lista de próximos estrenos
-        <a href="#"></a>
-  </div> <!-- method -->
-  <hr/>
-
-  <h2><a name="__Models">Models</a></h2>
-  [ Jump to <a href="#__Methods">Methods</a> ]
-
-  <h3>Table of Contents</h3>
-  <ol>
-  </ol>
+    <h1>Cinemex API</h1>
+    <div class="app-desc">API intermedia para consultar películas de TMDB. Documentación del proyecto Cinemex.</div>
+    <div class="app-desc">Contacto: equipo Cinemex</div>
+    <div class="app-desc">Versión: 1.0.0</div>
+    <div class="app-desc">BasePath: <code>/api/peliculas</code></div>
+    <div class="app-desc">Servidor de producción:</div>
+    <div class="base-url">https://cinemex-api-bye8gdg4chbsa7e3.northcentralus-01.azurewebsites.net/api/peliculas</div>
+
+    <div class="note">
+      Las rutas que no dependen de TMDB (<code>/health</code>, <code>/docs</code>, <code>/openapi.json</code>, <code>/swagger</code>)
+      responden sin necesidad de credenciales. Las rutas de películas requieren que <code>TMDB_API_KEY</code> o
+      <code>TMDB_BEARER_TOKEN</code> estén configuradas en el entorno.
+    </div>
+
+    <h2>Access</h2>
+    <div class="app-desc">API pública, sin autenticación. El token de TMDB se gestiona internamente en el servidor y no se expone.</div>
+
+    <h2><a name="__Methods">Methods</a></h2>
+    [ Jump to <a href="#__Models">Models</a> ]
+
+    <h3>Table of Contents</h3>
+    <div class="method-summary"></div>
+    <h4><a href="#Default">Default</a></h4>
+    <ul>
+      <li><a href="#healthGet"><code><span class="http-method">get</span> /health</code></a></li>
+      <li><a href="#rootGet"><code><span class="http-method">get</span> </code></a></li>
+      <li><a href="#popularesGet"><code><span class="http-method">get</span> /populares</code></a></li>
+      <li><a href="#carteleraGet"><code><span class="http-method">get</span> /cartelera</code></a></li>
+      <li><a href="#proximosEstrenosGet"><code><span class="http-method">get</span> /proximos-estrenos</code></a></li>
+      <li><a href="#idGet"><code><span class="http-method">get</span> /{id}</code></a></li>
+      <li><a href="#idRepartoGet"><code><span class="http-method">get</span> /{id}/reparto</code></a></li>
+      <li><a href="#docsGet"><code><span class="http-method">get</span> /docs</code></a></li>
+      <li><a href="#openapiGet"><code><span class="http-method">get</span> /openapi.json</code></a></li>
+      <li><a href="#swaggerGet"><code><span class="http-method">get</span> /swagger</code></a></li>
+    </ul>
+
+    <h1><a name="Default">Default</a></h1>
+
+    <div class="method"><a name="healthGet"></a>
+      <div class="method-path">
+        <a class="up" href="#__Methods">Up</a>
+        <pre class="get"><code class="huge"><span class="http-method">get</span> /health</code></pre>
+      </div>
+      <div class="method-summary">Health Check (<span class="nickname">healthGet</span>)</div>
+      <div class="method-notes">Verifica que la API esté en línea y muestra las rutas disponibles. No consulta TMDB.</div>
+
+      <h3 class="field-label">Responses</h3>
+      <h4 class="field-label">200</h4>
+      API funcionando correctamente
+      <pre class="example"><code>{
+  "servicio": "Cinemex API",
+  "status": "ok",
+  "endpoints": [
+    "/api/peliculas",
+    "/api/peliculas/health",
+    "/api/peliculas/populares",
+    "/api/peliculas/cartelera",
+    "/api/peliculas/proximos-estrenos",
+    "/api/peliculas/{id}",
+    "/api/peliculas/{id}/reparto",
+    "/api/peliculas/docs",
+    "/api/peliculas/openapi.json",
+    "/api/peliculas/swagger"
+  ]
+}</code></pre>
+    </div>
+    <hr/>
+
+    <div class="method"><a name="rootGet"></a>
+      <div class="method-path">
+        <a class="up" href="#__Methods">Up</a>
+        <pre class="get"><code class="huge"><span class="http-method">get</span> </code></pre>
+      </div>
+      <div class="method-summary">Raíz de la API (<span class="nickname">rootGet</span>)</div>
+      <div class="method-notes">Alias de <code>/health</code>. Devuelve el mismo estado del servicio.</div>
+
+      <h3 class="field-label">Responses</h3>
+      <h4 class="field-label">200</h4>
+      API funcionando correctamente
+      <pre class="example"><code>{
+  "servicio": "Cinemex API",
+  "status": "ok",
+  "endpoints": [ ... ]
+}</code></pre>
+    </div>
+    <hr/>
+
+    <div class="method"><a name="popularesGet"></a>
+      <div class="method-path">
+        <a class="up" href="#__Methods">Up</a>
+        <pre class="get"><code class="huge"><span class="http-method">get</span> /populares</code></pre>
+      </div>
+      <div class="method-summary">Películas populares (<span class="nickname">popularesGet</span>)</div>
+      <div class="method-notes">Obtiene una lista de las películas más populares del momento.</div>
+
+      <h3 class="field-label">Query parameters</h3>
+      <div class="field-items">
+        <div class="param">page (optional)</div>
+        <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; integer, minimum 1, default: 1</div>
+      </div>
+
+      <h3 class="field-label">Responses</h3>
+      <h4 class="field-label">200</h4>
+      Página de películas populares
+      <pre class="example"><code>{
+  "pagina": 1,
+  "totalPaginas": 500,
+  "totalResultados": 10000,
+  "peliculas": [
+    {
+      "id": 123,
+      "titulo": "Ejemplo",
+      "sinopsis": "...",
+      "fechaEstreno": "2024-01-01",
+      "duracion": 120,
+      "generos": ["Acción"],
+      "clasificacion": "B",
+      "cartel": "https://image.tmdb.org/t/p/w500/...",
+      "calificacion": 7.5,
+      "estado": "Released"
+    }
+  ]
+}</code></pre>
+      <h4 class="field-label">500</h4>
+      Error al consultar TMDB
+      <pre class="example"><code>{
+  "status": 500,
+  "error": "Configuracion faltante: Define TMDB_API_KEY ..."
+}</code></pre>
+    </div>
+    <hr/>
+
+    <div class="method"><a name="carteleraGet"></a>
+      <div class="method-path">
+        <a class="up" href="#__Methods">Up</a>
+        <pre class="get"><code class="huge"><span class="http-method">get</span> /cartelera</code></pre>
+      </div>
+      <div class="method-summary">Películas en cartelera (<span class="nickname">carteleraGet</span>)</div>
+      <div class="method-notes">Obtiene las películas que están actualmente en cines.</div>
+
+      <h3 class="field-label">Query parameters</h3>
+      <div class="field-items">
+        <div class="param">page (optional)</div>
+        <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; integer, minimum 1, default: 1</div>
+      </div>
+
+      <h3 class="field-label">Responses</h3>
+      <h4 class="field-label">200</h4>
+      Página de películas en cartelera
+      <pre class="example"><code>{
+  "pagina": 1,
+  "totalPaginas": 10,
+  "totalResultados": 200,
+  "peliculas": [ ... ]
+}</code></pre>
+      <h4 class="field-label">500</h4>
+      Error al consultar TMDB
+      <pre class="example"><code>{
+  "status": 500,
+  "error": "TMDB respondio HTTP 401"
+}</code></pre>
+    </div>
+    <hr/>
+
+    <div class="method"><a name="proximosEstrenosGet"></a>
+      <div class="method-path">
+        <a class="up" href="#__Methods">Up</a>
+        <pre class="get"><code class="huge"><span class="http-method">get</span> /proximos-estrenos</code></pre>
+      </div>
+      <div class="method-summary">Próximos estrenos (<span class="nickname">proximosEstrenosGet</span>)</div>
+      <div class="method-notes">Obtiene las películas que se estrenarán próximamente.</div>
+
+      <h3 class="field-label">Query parameters</h3>
+      <div class="field-items">
+        <div class="param">page (optional)</div>
+        <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; integer, minimum 1, default: 1</div>
+      </div>
+
+      <h3 class="field-label">Responses</h3>
+      <h4 class="field-label">200</h4>
+      Página de próximos estrenos
+      <pre class="example"><code>{
+  "pagina": 1,
+  "totalPaginas": 5,
+  "totalResultados": 100,
+  "peliculas": [ ... ]
+}</code></pre>
+      <h4 class="field-label">500</h4>
+      Error al consultar TMDB
+    </div>
+    <hr/>
+
+    <div class="method"><a name="idGet"></a>
+      <div class="method-path">
+        <a class="up" href="#__Methods">Up</a>
+        <pre class="get"><code class="huge"><span class="http-method">get</span> /{id}</code></pre>
+      </div>
+      <div class="method-summary">Detalle de película (<span class="nickname">idGet</span>)</div>
+      <div class="method-notes">Obtiene los detalles completos de una película por su ID de TMDB, incluyendo su clasificación.</div>
+
+      <h3 class="field-label">Path parameters</h3>
+      <div class="field-items">
+        <div class="param">id (required)</div>
+        <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; integer, ID de la película en TMDB</div>
+      </div>
+
+      <h3 class="field-label">Responses</h3>
+      <h4 class="field-label">200</h4>
+      Detalle de la película
+      <pre class="example"><code>{
+  "id": 123,
+  "titulo": "Ejemplo",
+  "sinopsis": "...",
+  "fechaEstreno": "2024-01-01",
+  "duracion": 120,
+  "generos": ["Acción"],
+  "clasificacion": "B",
+  "cartel": "https://image.tmdb.org/t/p/w500/...",
+  "calificacion": 7.5,
+  "estado": "Released"
+}</code></pre>
+      <h4 class="field-label">400</h4>
+      ID inválido
+      <pre class="example"><code>{
+  "status": 400,
+  "error": "ID de pelicula invalido"
+}</code></pre>
+      <h4 class="field-label">404</h4>
+      Película no encontrada en TMDB
+      <pre class="example"><code>{
+  "status": 404,
+  "error": "Pelicula no encontrada en TMDB"
+}</code></pre>
+      <h4 class="field-label">500</h4>
+      Error interno o de configuración
+    </div>
+    <hr/>
+
+    <div class="method"><a name="idRepartoGet"></a>
+      <div class="method-path">
+        <a class="up" href="#__Methods">Up</a>
+        <pre class="get"><code class="huge"><span class="http-method">get</span> /{id}/reparto</code></pre>
+      </div>
+      <div class="method-summary">Reparto de película (<span class="nickname">idRepartoGet</span>)</div>
+      <div class="method-notes">Obtiene la lista de actores principales de una película.</div>
+
+      <h3 class="field-label">Path parameters</h3>
+      <div class="field-items">
+        <div class="param">id (required)</div>
+        <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; integer, ID de la película en TMDB</div>
+      </div>
+
+      <h3 class="field-label">Responses</h3>
+      <h4 class="field-label">200</h4>
+      Lista de actores
+      <pre class="example"><code>[
+  {
+    "id": 1,
+    "nombre": "Actor Ejemplo",
+    "personaje": "Personaje",
+    "foto": "https://image.tmdb.org/t/p/w500/...",
+    "orden": 0
+  }
+]</code></pre>
+      <h4 class="field-label">400</h4>
+      ID inválido
+      <h4 class="field-label">404</h4>
+      Película no encontrada en TMDB
+      <h4 class="field-label">500</h4>
+      Error al consultar TMDB
+    </div>
+    <hr/>
+
+    <div class="method"><a name="docsGet"></a>
+      <div class="method-path">
+        <a class="up" href="#__Methods">Up</a>
+        <pre class="get"><code class="huge"><span class="http-method">get</span> /docs</code></pre>
+      </div>
+      <div class="method-summary">Documentación HTML (<span class="nickname">docsGet</span>)</div>
+      <div class="method-notes">Devuelve esta misma página de documentación.</div>
+
+      <h3 class="field-label">Responses</h3>
+      <h4 class="field-label">200</h4>
+      Documentación en HTML
+      <h4 class="field-label">404</h4>
+      Archivo index.html no encontrado en resources
+    </div>
+    <hr/>
+
+    <div class="method"><a name="openapiGet"></a>
+      <div class="method-path">
+        <a class="up" href="#__Methods">Up</a>
+        <pre class="get"><code class="huge"><span class="http-method">get</span> /openapi.json</code></pre>
+      </div>
+      <div class="method-summary">Especificación OpenAPI (<span class="nickname">openapiGet</span>)</div>
+      <div class="method-notes">Devuelve el contrato OpenAPI 3.0.3 de la API en formato JSON.</div>
+
+      <h3 class="field-label">Responses</h3>
+      <h4 class="field-label">200</h4>
+      Especificación OpenAPI
+      <h4 class="field-label">404</h4>
+      Archivo openapi.json no encontrado en resources
+    </div>
+    <hr/>
+
+    <div class="method"><a name="swaggerGet"></a>
+      <div class="method-path">
+        <a class="up" href="#__Methods">Up</a>
+        <pre class="get"><code class="huge"><span class="http-method">get</span> /swagger</code></pre>
+      </div>
+      <div class="method-summary">Swagger UI (<span class="nickname">swaggerGet</span>)</div>
+      <div class="method-notes">Interfaz interactiva de Swagger que carga <code>/api/peliculas/openapi.json</code>.</div>
+
+      <h3 class="field-label">Responses</h3>
+      <h4 class="field-label">200</h4>
+      Página HTML de Swagger UI
+    </div>
+    <hr/>
+
+    <h2><a name="__Models">Models</a></h2>
+    [ Jump to <a href="#__Methods">Methods</a> ]
+
+    <h3>Table of Contents</h3>
+    <ol>
+      <li><a href="#Pelicula">Pelicula</a></li>
+      <li><a href="#PaginaPeliculas">PaginaPeliculas</a></li>
+      <li><a href="#IntegranteReparto">IntegranteReparto</a></li>
+      <li><a href="#Error">Error</a></li>
+    </ol>
+
+    <h3><a name="Pelicula">Pelicula</a></h3>
+    <table>
+      <tr><th>Campo</th><th>Tipo</th><th>Descripción</th></tr>
+      <tr><td>id</td><td>integer</td><td>ID de TMDB</td></tr>
+      <tr><td>titulo</td><td>string</td><td>Título de la película</td></tr>
+      <tr><td>sinopsis</td><td>string</td><td>Sinopsis</td></tr>
+      <tr><td>fechaEstreno</td><td>string / null</td><td>Fecha de estreno (YYYY-MM-DD)</td></tr>
+      <tr><td>duracion</td><td>integer</td><td>Duración en minutos</td></tr>
+      <tr><td>generos</td><td>array&lt;string&gt;</td><td>Géneros</td></tr>
+      <tr><td>clasificacion</td><td>string</td><td>Clasificación (MX/US o NR)</td></tr>
+      <tr><td>cartel</td><td>string / null</td><td>URL del póster</td></tr>
+      <tr><td>calificacion</td><td>number</td><td>Promedio de votos</td></tr>
+      <tr><td>estado</td><td>string</td><td>Estado de la película</td></tr>
+    </table>
+
+    <h3><a name="PaginaPeliculas">PaginaPeliculas</a></h3>
+    <table>
+      <tr><th>Campo</th><th>Tipo</th><th>Descripción</th></tr>
+      <tr><td>pagina</td><td>integer</td><td>Página actual</td></tr>
+      <tr><td>totalPaginas</td><td>integer</td><td>Total de páginas</td></tr>
+      <tr><td>totalResultados</td><td>integer</td><td>Total de resultados</td></tr>
+      <tr><td>peliculas</td><td>array&lt;Pelicula&gt;</td><td>Lista de películas</td></tr>
+    </table>
+
+    <h3><a name="IntegranteReparto">IntegranteReparto</a></h3>
+    <table>
+      <tr><th>Campo</th><th>Tipo</th><th>Descripción</th></tr>
+      <tr><td>id</td><td>integer</td><td>ID del actor en TMDB</td></tr>
+      <tr><td>nombre</td><td>string</td><td>Nombre del actor</td></tr>
+      <tr><td>personaje</td><td>string</td><td>Personaje interpretado</td></tr>
+      <tr><td>foto</td><td>string / null</td><td>URL de la foto</td></tr>
+      <tr><td>orden</td><td>integer</td><td>Orden en los créditos</td></tr>
+    </table>
+
+    <h3><a name="Error">Error</a></h3>
+    <table>
+      <tr><th>Campo</th><th>Tipo</th><th>Descripción</th></tr>
+      <tr><td>status</td><td>integer</td><td>Código HTTP</td></tr>
+      <tr><td>error</td><td>string</td><td>Mensaje de error</td></tr>
+    </table>
+
+    <h2>Ejemplos de llamadas</h2>
+    <pre class="example"><code># Health check
+curl https://cinemex-api-bye8gdg4chbsa7e3.northcentralus-01.azurewebsites.net/api/peliculas/health
+
+# Películas populares
+curl "https://cinemex-api-bye8gdg4chbsa7e3.northcentralus-01.azurewebsites.net/api/peliculas/populares?page=1"
+
+# Detalle de película
+curl https://cinemex-api-bye8gdg4chbsa7e3.northcentralus-01.azurewebsites.net/api/peliculas/123
+
+# Reparto
+curl https://cinemex-api-bye8gdg4chbsa7e3.northcentralus-01.azurewebsites.net/api/peliculas/123/reparto
+
+# Swagger UI
+# https://cinemex-api-bye8gdg4chbsa7e3.northcentralus-01.azurewebsites.net/api/peliculas/swagger
+</code></pre>
 
   </body>
 </html>
